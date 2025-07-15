@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">To-Do List</string>
+    <string name="fecha">Eige la Fecha para saber que tareas hacer:</string>
+    <string name="button">Ir a la fecha</string>
+</resources>

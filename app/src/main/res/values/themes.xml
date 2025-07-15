@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.ToDoList" parent="Theme.MaterialComponents.DayNight.NoActionBar" />
+    <style name="Theme.YourAppName" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    </style>
+    <style name="CustomCalendarViewStyle" parent="android:Widget.CalendarView">
+        <item name="android:focusedMonthDateColor">@color/white</item>
+        <item name="android:unfocusedMonthDateColor">@color/white</item>
+        <item name="android:weekDayTextAppearance">@style/CalendarWeekDayText</item>
+        <item name="android:dateTextAppearance">@style/CalendarDateText</item>
+        <item name="android:textColorPrimary">@color/white</item>
+    </style>
+    <style name="CalendarWeekDayText" parent="android:TextAppearance.Small">
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <style name="CalendarDateText" parent="android:TextAppearance.Small">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+</resources>
