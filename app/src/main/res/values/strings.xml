@@ -2,4 +2,12 @@
     <string name="app_name">To-Do List</string>
     <string name="fecha">Eige la Fecha para saber que tareas hacer:</string>
     <string name="button">Ir a la fecha</string>
+    <string name="title">Tareas para el dia: </string>
+    <string name="placeHolder">Escribe una tarea aqui...</string>
+    <string name="buttonAdd">AGREGAR TAREA</string>
+    <string name="buttonDelete">ELIMINAR TAREA</string>
+    <string name="buttonAccept">ACEPTAR TAREA</string>
+    <string name="buttonCancel">CANCELAR</string>
+    <string name="tareaAdd">TAREA AGREGADA</string>
+    <string name="TareasNofecha">Tareas para: Fecha no seleccionada</string>
 </resources>

@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Theme.ToDoList" parent="Theme.MaterialComponents.DayNight.NoActionBar" />
-    <style name="Theme.YourAppName" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-    </style>
     <style name="CustomCalendarViewStyle" parent="android:Widget.CalendarView">
         <item name="android:focusedMonthDateColor">@color/white</item>
         <item name="android:unfocusedMonthDateColor">@color/white</item>

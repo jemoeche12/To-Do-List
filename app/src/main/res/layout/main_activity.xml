@@ -1,51 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/main"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    tools:context=".MainActivity">
 
-    <!-- Título que muestra la fecha -->
     <TextView
         android:id="@+id/tvFecha"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tareas para: "
         android:textSize="20sp"
         android:textStyle="bold"
-        android:gravity="center"
-        android:layout_marginBottom="20dp" />
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="26dp"
+        android:text="@string/TareasNofecha" />
 
-    <!-- Campo para escribir nueva tarea -->
     <EditText
         android:id="@+id/etNuevaTarea"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Escribe tu tarea aquí..."
-        android:textSize="16sp"
-        android:layout_marginBottom="10dp" />
+        android:hint="@string/placeHolder"
+        android:layout_marginBottom="26dp"
+        android:minHeight="48dp" />
 
-    <!-- Botón para agregar tarea -->
     <Button
         android:id="@+id/btnAgregar"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Agregar Tarea"
-        android:textSize="16sp"
-        android:layout_marginBottom="20dp" />
+        android:text="@string/buttonAdd"
+        android:layout_gravity="center"
+        android:layout_marginBottom="16dp" />
 
-    <!-- Contenedor donde aparecerán las tareas -->
-    <ScrollView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewTareas"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:id="@+id/layoutTareas"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-
-    </ScrollView>
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        />
 
 </LinearLayout>

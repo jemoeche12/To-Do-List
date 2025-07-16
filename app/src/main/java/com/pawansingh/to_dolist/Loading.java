@@ -24,7 +24,6 @@ public class Loading extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_loading);
 
-        // Inicializar vistas después de setContentView
         calendario = findViewById(R.id.calendario);
         button = findViewById(R.id.button);
 
