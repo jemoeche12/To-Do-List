@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.google.android.material.snackbar.Snackbar
+import android.util.Pair
+import androidx.core.content.ContextCompat
 
 class MainActivity : AppCompatActivity(), SwipeToActionCallback.SwipeActionListener {
 
@@ -18,8 +20,18 @@ class MainActivity : AppCompatActivity(), SwipeToActionCallback.SwipeActionListe
     private lateinit var btnAgregar: Button
     private lateinit var recyclerViewTareas: RecyclerView
     private lateinit var adapter: MyAdapter
+
+    private lateinit var btnCocina: Button
+    private lateinit var btnSala: Button
+    private lateinit var btnOtrasTareas: Button
+    private lateinit var btnTodas: Button
+
+    private lateinit var categoryButtons: List<Button>
+
     private var fechaSeleccionada: String = ""
-    private val listaTareas = ArrayList<String>()
+    private val listaTareas = ArrayList<Pair<String, String>>()
+    private var listaTareasFiltradas = ArrayList<Pair<String, String>>()
+    private var currentCategory: String = "Todas"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,11 +42,17 @@ class MainActivity : AppCompatActivity(), SwipeToActionCallback.SwipeActionListe
         btnAgregar = findViewById(R.id.btnAgregar)
         recyclerViewTareas = findViewById(R.id.recyclerViewTareas)
 
-        fechaSeleccionada = intent.getStringExtra("fechaSeleccionada") ?: "Fecha no seleccionada"
+        btnCocina = findViewById(R.id.btnCocina)
+        btnSala = findViewById(R.id.btnSala)
+        btnOtrasTareas = findViewById(R.id.btnOtrasTareas)
+        btnTodas = findViewById(R.id.btnTodas)
 
+        categoryButtons = listOf(btnCocina, btnSala, btnOtrasTareas, btnTodas)
+
+        fechaSeleccionada = intent.getStringExtra("fechaSeleccionada") ?: "Fecha no seleccionada"
         tvFecha.text = "Tareas para: $fechaSeleccionada"
 
-        adapter = MyAdapter(listaTareas)
+        adapter = MyAdapter(listaTareasFiltradas)
         recyclerViewTareas.adapter = adapter
         recyclerViewTareas.layoutManager = LinearLayoutManager(this)
 
@@ -43,43 +61,95 @@ class MainActivity : AppCompatActivity(), SwipeToActionCallback.SwipeActionListe
         itemTouchHelper.attachToRecyclerView(recyclerViewTareas)
 
         btnAgregar.setOnClickListener {
-            agregarTarea()
+            agregarTarea(currentCategory)
         }
+
+        btnCocina.setOnClickListener { filterTasks("COOCK"); updateCategoryButtonState("COOCK") }
+        btnSala.setOnClickListener { filterTasks("SALA"); updateCategoryButtonState("SALA") }
+        btnOtrasTareas.setOnClickListener { filterTasks("OTRAS TAREAS"); updateCategoryButtonState("OTRAS TAREAS") }
+        btnTodas.setOnClickListener { filterTasks("Todas"); updateCategoryButtonState("Todas") }
+
+        filterTasks("Todas")
+        updateCategoryButtonState("Todas")
     }
 
-    private fun agregarTarea() {
-        val nuevaTarea = etNuevaTarea.text.toString().trim()
+    private fun agregarTarea(category: String) {
+        val nuevaTareaTexto = etNuevaTarea.text.toString().trim()
 
-        if (nuevaTarea.isEmpty()) {
-            Toast.makeText(this, "@/string/placeHolder", Toast.LENGTH_SHORT).show()
+        if (nuevaTareaTexto.isEmpty()) {
+            Toast.makeText(this, R.string.placeHolder, Toast.LENGTH_SHORT).show()
             return
         }
 
-        listaTareas.add(nuevaTarea)
-        adapter.notifyItemInserted(listaTareas.size - 1)
-
+        listaTareas.add(Pair(nuevaTareaTexto, category))
         etNuevaTarea.setText("")
+        Toast.makeText(this, R.string.tareaAdd, Toast.LENGTH_SHORT).show()
 
-        Toast.makeText(this, "@string/tareaAdd", Toast.LENGTH_SHORT).show()
+        filterTasks(currentCategory)
+    }
+
+    private fun filterTasks(category: String) {
+        currentCategory = category
+        listaTareasFiltradas.clear()
+
+        if (category == "Todas") {
+            listaTareasFiltradas.addAll(listaTareas)
+        } else {
+            listaTareas.forEach { taskPair ->
+                if (taskPair.second == category) {
+                    listaTareasFiltradas.add(taskPair)
+                }
+            }
+        }
+        adapter.notifyDataSetChanged()
     }
 
     override fun onSwipeLeft(position: Int) {
-        Toast.makeText(this, "Elemento aceptado: " + listaTareas[position], Toast.LENGTH_SHORT).show()
+        val originalItem = listaTareasFiltradas[position]
+        val originalIndex = listaTareas.indexOf(originalItem)
 
-        listaTareas[position] = listaTareas[position] + " ✓"
-        adapter.notifyItemChanged(position)
+        if (originalIndex != -1) {
+            Toast.makeText(this, "Elemento aceptado: " + listaTareas[originalIndex].first, Toast.LENGTH_SHORT).show()
+            listaTareas[originalIndex] = Pair(listaTareas[originalIndex].first + " ✓", listaTareas[originalIndex].second)
+            filterTasks(currentCategory)
+        }
     }
 
     override fun onSwipeRight(position: Int) {
-        val removedItem = listaTareas[position]
-        listaTareas.removeAt(position)
-        adapter.notifyItemRemoved(position)
+        val removedItem = listaTareasFiltradas[position]
+        val originalIndex = listaTareas.indexOf(removedItem)
 
-        Snackbar.make(recyclerViewTareas, "Tarea eliminada: $removedItem", Snackbar.LENGTH_LONG)
-            .setAction("Deshacer") {
-                listaTareas.add(position, removedItem)
-                adapter.notifyItemInserted(position)
-            }
-            .show()
+        if (originalIndex != -1) {
+            listaTareas.removeAt(originalIndex)
+            filterTasks(currentCategory)
+
+            Snackbar.make(recyclerViewTareas, "Tarea eliminada: ${removedItem.first}", Snackbar.LENGTH_LONG)
+                .setAction("Deshacer") {
+                    listaTareas.add(originalIndex, removedItem)
+                    filterTasks(currentCategory)
+                }
+                .show()
+        }
     }
+
+    private fun updateCategoryButtonState(selectedCategory: String) {
+        categoryButtons.forEach { button ->
+            button.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500))
+            button.setTextColor(ContextCompat.getColor(this, android.R.color.white))
+        }
+
+        val buttonToSelect = when (selectedCategory) {
+            "COOCK" -> btnCocina
+            "SALA" -> btnSala
+            "OTRAS TAREAS" -> btnOtrasTareas
+            "Todas" -> btnTodas
+            else -> null
+        }
+
+        buttonToSelect?.let { button ->
+            button.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_200))
+            button.setTextColor(ContextCompat.getColor(this, android.R.color.white))
+        }
+    }
+
 }

@@ -7,14 +7,58 @@
     android:padding="16dp"
     tools:context=".MainActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="8dp">
+        <Button
+            android:id="@+id/btnCocina"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/btnCocina"
+            android:layout_marginEnd="8dp"/>
+        <Button
+            android:id="@+id/btnSala"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/btnSala" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="16dp">
+        <Button
+            android:id="@+id/btnOtrasTareas"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/btnOtrasTareas"
+            android:layout_marginEnd="8dp"/>
+
+        <Button
+            android:id="@+id/btnTodas"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/btnTodas" />
+
+    </LinearLayout>
+
     <TextView
         android:id="@+id/tvFecha"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="26dp"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="16dp"
         android:text="@string/TareasNofecha" />
 
     <EditText
@@ -22,22 +66,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/placeHolder"
-        android:layout_marginBottom="26dp"
-        android:minHeight="48dp" />
+        android:layout_marginBottom="8dp"
+        android:minHeight="48dp"
+        android:inputType="textCapSentences" />
 
     <Button
         android:id="@+id/btnAgregar"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/buttonAdd"
-        android:layout_gravity="center"
         android:layout_marginBottom="16dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewTareas"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal"
-        />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars="vertical" />
 
 </LinearLayout>

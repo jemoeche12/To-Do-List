@@ -1,4 +1,4 @@
-package com.pawansingh.to_dolist; // Asegúrate de que el paquete sea correcto
+package com.pawansingh.to_dolist;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,11 +10,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+// Importa la clase Pair de Android si aún no la tienes, o usa android.util.Pair
+import android.util.Pair; // Esta es la clase Pair común en Android
+
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
-    private List<String> items;
+    private List<Pair<String, String>> items;
 
-    public MyAdapter(List<String> items) {
+    public MyAdapter(List<Pair<String, String>> items) {
         this.items = items;
     }
 
@@ -28,7 +31,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.textView.setText(items.get(position));
+        Pair<String, String> currentTaskPair = items.get(position);
+
+        String taskDescription = currentTaskPair.first;
+        String taskCategory = currentTaskPair.second;
+
+        holder.textView.setText(taskDescription);
+
+
     }
 
     @Override
